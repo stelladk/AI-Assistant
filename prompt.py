@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-import json
 from huggingface_hub import InferenceClient
 
 # torch.backends.cuda.matmul.allow_tf32 = True
@@ -46,27 +45,3 @@ class Prompting():
             chunk = message.choices[0].delta.content
             yield chunk
         yield "\n"
-
-
-# # Start the chat
-if __name__ == "__main__":
-    # model_id = "meta-llama/Llama-2-7b-chat-hf"
-    model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
-
-    prompt = Prompting(model_id)
-
-    print(f"You can start chatting with {model_id}. Type 'exit' to quit.\n")
-
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() == 'exit':
-            print("Goodbye!")
-            break
-
-        print(f"Lumin: ", end="")
-
-        for chunk in prompt.chat(user_input):
-            print(chunk, end="")
-    
-    with open("conversation_history.json", "a") as f:
-        json.dump(prompt.conversation_history, f)

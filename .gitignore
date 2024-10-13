@@ -1,5 +1,12 @@
+# Environment variables
 .env
+
+# Saved models
 **/pretrained/*
 
+# Created at runtime
+**/__pycache__/*
+
+# Conversation history
 conversation_history.json
 *.json
