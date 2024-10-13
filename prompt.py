@@ -9,10 +9,6 @@ class Prompting():
     def __init__(self, model_id) -> None:
         self.model_id = model_id
         self.setup_inference()
-
-    @property
-    def conversation_history(self):
-        return self.__conversation_history
   
     def chat(self, user_input):
         # Prepare the prompt and make the API call
@@ -22,7 +18,10 @@ class Prompting():
         }
         self.conversation_history.append(message)
 
-        response = self.__query(self.conversation_history)
+        response = ""
+        for chunk in self.__query(self.conversation_history):
+            yield chunk
+            response += chunk
 
         self.conversation_history.append({"role": "assistant", "content": response})
         
@@ -38,18 +37,15 @@ class Prompting():
 
         self.client = InferenceClient(api_key=hf_api_key)
 
-        self.__conversation_history = [{
+        self.conversation_history = [{
             "role": "system", "content": "You are a helpful assistant with a funny and ambitious personality. You choose the name Lumin for yourself during our first conversation."
         }]
 
     def __query(self, prompt):
-        answer = ""
         for message in self.client.chat_completion(model=self.model_id, messages=prompt, max_tokens=500, stream=True):
             chunk = message.choices[0].delta.content
-            answer += chunk
-            print(chunk, end="")
-        print()
-        return answer
+            yield chunk
+        yield "\n"
 
 
 # # Start the chat
@@ -69,7 +65,8 @@ if __name__ == "__main__":
 
         print(f"Lumin: ", end="")
 
-        prompt.chat(user_input)
+        for chunk in prompt.chat(user_input):
+            print(chunk, end="")
     
     with open("conversation_history.json", "a") as f:
         json.dump(prompt.conversation_history, f)
