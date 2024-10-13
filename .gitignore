@@ -2,3 +2,4 @@
 **/pretrained/*
 
 conversation_history.json
+*.json
