@@ -7,7 +7,7 @@ from huggingface_hub import InferenceClient
 class Prompting():
     def __init__(self, model_id) -> None:
         self.model_id = model_id
-        self.setup_inference()
+        self.__setup_inference()
   
     def chat(self, user_input):
         # Prepare the prompt and make the API call
@@ -30,15 +30,18 @@ class Prompting():
         # else:
         #     print("Error:", response['error'])
     
-    def setup_inference(self):
+    def __setup_inference(self):
         load_dotenv()
         hf_api_key = os.environ.get("hf-api-key")
 
         self.client = InferenceClient(api_key=hf_api_key)
 
         self.conversation_history = [{
-            "role": "system", "content": "You are a helpful assistant with a funny and ambitious personality. You choose the name Lumin for yourself during our first conversation."
+            "role": "system", "content": "You are a helpful assistant with a subtle funny and ambitious personality. You choose the name Lumin for yourself during our first conversation."
         }]
+        # self.conversation_history = [{
+        #     "role": "system", "content": "You are designed to recognise specific commands from user input in a game. Answer only with the command you recognised in capital and any information defining i. For example specify the resource or tools needed to complete the task. The sentence may contain more than one commands"
+        # }]
 
     def __query(self, prompt):
         for message in self.client.chat_completion(model=self.model_id, messages=prompt, max_tokens=500, stream=True):

@@ -6,6 +6,7 @@
 
 # Created at runtime
 **/__pycache__/*
+**/*.wav
 
 # Conversation history
 conversation_history.json
