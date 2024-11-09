@@ -8,15 +8,14 @@ class Speech():
         self.__current_sentence = ""
     
     def speak(self, text):
+        self.stash(text)
+
         if re.search("[\.\!\?\\n]", text):
             self.say(self.__current_sentence.strip())
             self.__current_sentence = ""
-        else:
-            self.stash(text)
-        
-        if len(self.__current_sentence) > 10_000:
+        elif len(self.__current_sentence) > 10_000:
             print("The speech buffer is too long. Flushing.")
-            self.say(self.__current_sentence)
+            self.say(self.__current_sentence.strip())
             self.__current_sentence = ""
             
     def stash(self, text):
