@@ -2,6 +2,7 @@ import assemblyai as assembly
 import pyaudio
 import wave
 import os
+from absolute_path import basedir
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -49,7 +50,7 @@ class Hearing():
         self.auditory_sense.terminate()
     
     def __setup_inference(self) -> None:
-        load_dotenv()
+        load_dotenv(os.path.join(basedir(), '.env'))
         assembly.settings.api_key = os.environ.get("assemblyai-api-key")
         # config = assembly.TranscriptionConfig(auto_highlights=True, punctuate=True)
         self.acoustic_sense = assembly.Transcriber()

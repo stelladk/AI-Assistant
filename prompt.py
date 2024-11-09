@@ -1,4 +1,5 @@
 import os
+from absolute_path import basedir
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 
@@ -31,7 +32,7 @@ class Prompting():
         #     print("Error:", response['error'])
     
     def __setup_inference(self):
-        load_dotenv()
+        load_dotenv(os.path.join(basedir(), '.env'))
         hf_api_key = os.environ.get("hf-api-key")
 
         self.client = InferenceClient(api_key=hf_api_key)

@@ -1,5 +1,5 @@
 # Environment variables
-.env
+**/.env
 
 # Operating system
 **/.DS_Store
