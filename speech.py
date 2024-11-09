@@ -22,6 +22,7 @@ class Speech():
         self.__current_sentence += text
 
     def say(self, text):
-        self.voice.say(text)
-        self.voice.runAndWait()
+        if len(text) > 0: 
+            self.voice.say(text)
+            self.voice.runAndWait()
         self.voice.stop()
