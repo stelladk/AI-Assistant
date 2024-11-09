@@ -1,12 +1,20 @@
 # Environment variables
 .env
 
+# Operating system
+**/.DS_Store
+
 # Saved models
 **/pretrained/*
 
 # Created at runtime
 **/__pycache__/*
 **/*.wav
+
+# Build
+build/*
+dist/*
+**/*.spec
 
 # Conversation history
 conversation_history.json

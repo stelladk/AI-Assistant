@@ -36,9 +36,10 @@ class Prompting():
 
         self.client = InferenceClient(api_key=hf_api_key)
 
-        self.conversation_history = [{
-            "role": "system", "content": "You are a helpful assistant with a subtle funny and ambitious personality. You choose the name Lumin for yourself during our first conversation."
-        }]
+        self.conversation_history = [
+            {"role": "system", "content": "You are a helpful assistant with a subtle funny and ambitious personality. You chose the name Lumin for yourself during our first conversation."},
+            {"role": "system", "content": "Always indicate the language you are speaking in at the beginning of your response inside [] and whenever you change it."},
+        ]
         # self.conversation_history = [{
         #     "role": "system", "content": "You are designed to recognise specific commands from user input in a game. Answer only with the command you recognised in capital and any information defining i. For example specify the resource or tools needed to complete the task. The sentence may contain more than one commands"
         # }]

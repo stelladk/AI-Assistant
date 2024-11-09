@@ -2,6 +2,7 @@ import assemblyai as assembly
 import pyaudio
 import wave
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 class Hearing():
@@ -10,8 +11,10 @@ class Hearing():
         self.__rate = 16_000
         self.__frames_per_buffer = 8192
         self.__channels = 1
-        self.__wav_file_path = "_voice.wav"
+        self.__wav_folder_path = "tmp/"
+        self.__wav_file_path = self.__wav_folder_path + "_voice.wav"
         self.__buffers_per_second = int(self.__rate / self.__frames_per_buffer)
+        Path(self.__wav_folder_path).mkdir(parents=True, exist_ok=True)
         self.__setup_inference()
         self.unmute()
     
@@ -60,11 +63,9 @@ class Hearing():
         wf.close()
 
 if __name__ == "__main__":
-    output_file_path = "_voice.wav"
     hearing = Hearing()
-    # audio = hearing.listen(15)
+    audio = hearing.listen(10)
     hearing.mute()
-    # hearing.write_to_wav(audio, output_file_path)
     # transcript = transcriber.transcribe("https://assembly.ai/news.mp4")
-    transcript = hearing.understand(output_file_path)
+    transcript = hearing.understand(audio)
     print(transcript)
